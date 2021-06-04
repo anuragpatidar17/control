@@ -1,17 +1,21 @@
+const pdf2excel = require('pdf-to-excel');
 
-const fs = require('fs');   //package for txt file
-const pdf = require('pdf-parse');
- 
+try {
+  const options = {
+    // when current pdf page number changes call this function(optional)
+    onProcess: (e) => console.warn(`${e.numPage} / ${e.numPages}`),
+   
+  }
+
+  pdf2excel.genXlsx('Anurag_resume.pdf', 'bar.xlsx', options);
+} catch (err) {
+  console.error(err);
+}
 
 
-let dataBuffer = fs.readFileSync('./Anurag_resume.pdf');
- 
-pdf(dataBuffer).then(function(data) {
- 
-    // PDF text
-    console.log(data.text); 
-        
-});
+
+
+
 
 
 
