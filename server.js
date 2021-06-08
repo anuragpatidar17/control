@@ -1,18 +1,21 @@
-const pdf2excel = require('pdf-to-excel');
+var request = require('request');
+var fs = require('fs');
 
-try {
-  const options = {
-    // when current pdf page number changes call this function(optional)
-    onProcess: (e) => console.warn(`${e.numPage} / ${e.numPages}`),
-   
-  }
+var url = 'https://pdftables.com/api?key=f7z47cloyjc1&format=xlsx-single';
+var req = request.post({encoding: null, url: url}, function (err, resp, body) {
+ if (!err && resp.statusCode == 200) {
+   fs.writeFile("output.xlsx", body, function(err) {
+     if (err) {
+       console.log('error writing file');
+     }
+   });
+ } else {
+   console.log('error retrieving URL');
+ };
+});
 
-  pdf2excel.genXlsx('Anurag_resume.pdf', 'bar.xlsx', options);
-} catch (err) {
-  console.error(err);
-}
-
-
+var form = req.form();
+form.append('file', fs.createReadStream('SYS_USER_ROLES QGC.pdf'));
 
 
 
